@@ -11,7 +11,7 @@ export default function Recipe({ title, calories, image, ingredients }) {
             <Image source={{
                 uri: image
 
-                // uri: product.id ? product.image_front_small_url : ""
+
 
             }}
                 style={styles.image}
@@ -27,10 +27,7 @@ export default function Recipe({ title, calories, image, ingredients }) {
 }
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
-        // justifyContent: "center",
-        // alignItems: "center",
-        // paddingTop: 40
+
         borderRadius: 10,
         margin: 20,
         display: 'flex',

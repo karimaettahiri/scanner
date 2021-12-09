@@ -1,33 +1,65 @@
-import React, { useEffect } from 'react';
-
-import ScannProduct from "./components/ScannProduct";
-import FetchProduct from './components/FetchProduct';
-import { NavigationContainer } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import {
+  NavigationContainer,
+  DefaultTheme as NavigationDefaultTheme,
+  DarkTheme as NavigationDarkTheme
+} from '@react-navigation/native';
+import {
+  Provider as PaperProvider,
+  DefaultTheme as PaperDefaultTheme,
+  DarkTheme as PaperDarkTheme
+} from 'react-native-paper';
 import { StyleSheet, ActivityIndicator, Text, View, SafeAreaView, ScrollView, ImageBackground } from 'react-native';
-import { Header } from 'react-native/Libraries/NewAppScreen';
+
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SearchProductByName from './components/Fetchbyname/SearchProductByName';
+
 import SearchBar from './components/HealthyRecepes/SearchBar';
-import NavBar from './components/NavBar';
+// import NavBar from './components/NavBar';
 import RootStackScreen from './components/RootStackScreen';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { DrawerContent } from './components/DrawerContent';
 import Home from './components/Home';
 import { AuthContext } from './components/context';
-// import AsyncStorage from '@react-native-community/async-storage';
+
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import About from './components/About';
 import ContactUs from './components/ContactUs';
-import MainTab from './components/MainTab';
+
+
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 export default function App() {
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
 
   const initialLoginState = {
     isLoading: true,
     userName: null,
     userToken: null,
   };
+
+  const CustomDefaultTheme = {
+    ...NavigationDefaultTheme,
+    ...PaperDefaultTheme,
+    colors: {
+      ...NavigationDefaultTheme.colors,
+      ...PaperDefaultTheme.colors,
+      background: '#ffffff',
+      text: '#333333'
+    }
+  }
+
+  const CustomDarkTheme = {
+    ...NavigationDarkTheme,
+    ...PaperDarkTheme,
+    colors: {
+      ...NavigationDarkTheme.colors,
+      ...PaperDarkTheme.colors,
+      background: '#333333',
+      text: '#ffffff'
+    }
+  }
+
+  const theme = isDarkTheme ? CustomDarkTheme : CustomDefaultTheme;
 
   const loginReducer = (prevState, action) => {
     switch (action.type) {
@@ -64,19 +96,15 @@ export default function App() {
   const [loginState, dispatch] = React.useReducer(loginReducer, initialLoginState);
 
   const authContext = React.useMemo(() => ({
-    signIn: async (userName, password) => {
-      // setUserToken('fgkj');
-      // setIsLoading(false);
-      let userToken;
-      userToken = null;
-      if (userName == 'user' && password == 'pass') {
-        try {
-          userToken = 'dfgdfg';
-          await AsyncStorage.setItem('userToken', userToken);
-        } catch (e) {
-          console.log(e);
-        }
+    signIn: async (foundUser) => {
+      const userToken = String(foundUser[0].userToken);
+      const userName = foundUser[0].username;
+      try {
+        await AsyncStorage.setItem('userToken', userToken);
+      } catch (e) {
+        console.log(e);
       }
+
       // console.log('user token: ', userToken);
       dispatch({ type: 'LOGIN', id: userName, token: userToken });
     },
@@ -91,9 +119,12 @@ export default function App() {
       dispatch({ type: 'LOGOUT' });
     },
     signUp: () => {
-      // setUserToken('fgkj');
-      // setIsLoading(false);
+      setUserToken('fgkj');
+      setIsLoading(false);
     },
+    toggleTheme: () => {
+      setIsDarkTheme(isDarkTheme => !isDarkTheme);
+    }
   }), []);
 
   useEffect(() => {
@@ -125,7 +156,7 @@ export default function App() {
     //     <ScrollView>
     //       <View style={styles.body}>
     //         {/* <Header /> */}
-    <ScannProduct />
+    // <ScannProduct />
     //         {/* <FetchProduct /> */}
     //         {/* <SearchProductByName /> */}
     //         <SearchBar />
@@ -134,37 +165,39 @@ export default function App() {
 
     //   </ImageBackground>
     // </SafeAreaView>
-    //   <AuthContext.Provider value={authContext}>
+    <PaperProvider theme={theme}>
+      <AuthContext.Provider value={authContext}>
 
-    //     <NavigationContainer style={styles.container}>
+        <NavigationContainer style={styles.container} theme={theme}>
 
-    //       {loginState.userToken !== null ? (
-    //         <>
-    //           <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
-    //             <Drawer.Screen name="Home" component={Home} />
-    //             <Drawer.Screen name="ScannProduct" component={ScannProduct} />
-    //             <Drawer.Screen name="SearchBar" component={SearchBar} />
-    //             <Drawer.Screen name="About" component={About} />
-    //             <Drawer.Screen name="ContactUs" component={ContactUs} />
+          {loginState.userToken !== null ? (
+            <>
+              <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
+                <Drawer.Screen name="Home" component={Home} />
 
-    //           </Drawer.Navigator>
+                <Drawer.Screen name="SearchBar" component={SearchBar} />
+                <Drawer.Screen name="About" component={About} />
+                <Drawer.Screen name="ContactUs" component={ContactUs} />
 
-
-    //         </>
-    //       )
-    //         :
-    //         <>
-
-    //           <NavBar />
-    //         </>
-    //       }
+              </Drawer.Navigator>
 
 
+            </>
+          )
+            :
+            <>
+
+              <Home />
+            </>
+          }
 
 
 
-    //     </NavigationContainer>
-    //   </AuthContext.Provider>
+
+
+        </NavigationContainer>
+      </AuthContext.Provider>
+    </PaperProvider>
 
 
   );

@@ -44,23 +44,26 @@ export default function SearchBar() {
 }
 const styles = StyleSheet.create({
     container: {
-        // marginTop: 40,
-        flexDirection: 'row',
+
+        flex: 1,
         alignItems: 'center',
-        backgroundColor: "white"
+        backgroundColor: "orange"
 
     },
     inputtext: {
-        flex: 1,
-        borderWidth: 2,
-        fontSize: 20,
+
+        borderWidth: 1,
+
         margin: 5,
-        borderRadius: 5,
-        padding: 5
+
+        fontSize: 20,
+        marginLeft: 10,
+        width: "90%",
 
 
     },
     searchbutton: {
+
 
     },
 });

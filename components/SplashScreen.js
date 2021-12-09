@@ -9,7 +9,6 @@ import {
     Image
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-// import LinearGradient from 'react-native-linear-gradient';
 import { LinearGradient } from 'expo-linear-gradient';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from '@react-navigation/native';
@@ -38,7 +37,7 @@ const SplashScreen = ({ navigation }) => {
                 <Text style={[styles.title, {
                     color: colors.text
                 }]}>Discover Healthy Recipes for everyone!</Text>
-                <Text style={styles.text}>Sign in with account</Text>
+                <Text style={styles.text}>Sign in with an account</Text>
                 <View style={styles.button}>
                     <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
                         <LinearGradient

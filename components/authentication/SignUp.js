@@ -8,13 +8,15 @@ import {
     TextInput,
     Platform,
     StyleSheet,
-    StatusBar
+    StatusBar,
+
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 // import LinearGradient from 'react-native-linear-gradient';
 import { LinearGradient } from 'expo-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const SignUp = ({ navigation }) => {
 
@@ -75,7 +77,7 @@ const SignUp = ({ navigation }) => {
     }
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <StatusBar backgroundColor='#009387' barStyle="light-content" />
             <View style={styles.header}>
                 <Text style={styles.text_header}>Register Now!</Text>
@@ -216,7 +218,7 @@ const SignUp = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
             </Animatable.View>
-        </View>
+        </ScrollView>
     );
 };
 

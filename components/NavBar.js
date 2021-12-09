@@ -74,7 +74,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Home from './Home'
 import SignIn from './authentication/SignIn';
 import SignUp from './authentication/SignUp';
-import ScannProduct from './ScannProduct';
+import ScannProduct from './ScanProduct';
 import RootStackScreen from './RootStackScreen';
 
 const HomeStack = createStackNavigator();

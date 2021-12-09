@@ -4,10 +4,11 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button, ScrollView } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { createStackNavigator } from '@react-navigation/stack';
-import Home from './Home';
+import SplashScreen from './SplashScreen';
+// import Home from './Home';
 const Stack = createStackNavigator();
 
-export default function ScannProduct() {
+export default function ScanProduct() {
 
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
@@ -37,6 +38,7 @@ export default function ScannProduct() {
 
   // }
 
+
   // Check permissions and return the screens
   if (hasPermission === null) {
     return (
@@ -57,7 +59,7 @@ export default function ScannProduct() {
   // Return the View
   return (
 
-    <View style={styles.container}>
+    <ScrollView >
       <View style={styles.barcodebox}>
 
 
@@ -68,18 +70,14 @@ export default function ScannProduct() {
           style={{ height: 400, width: 400 }} />
       </View>
       <Text style={styles.maintext}>Barcode:{text}</Text>
-      {/* <Button title={'fakescan'} onPress={fakeBarCodeScan} /> */}
+
+      {/* <Button title={'barcodeexample'} onPress={fakeBarCodeScan} /> */}
 
       {scanned && <Button title={'Scan again?'} onPress={() => setScanned(false)} color='orange' />}
 
-
-
-      <ScrollView>
-        {text > 0 ? (
-          <FetchProduct barcode={text} />) : (<Home />)}
-      </ScrollView>
-
-    </View>
+      {text > 0 ? (
+        <FetchProduct barcode={text} />) : null}
+    </ScrollView>
 
   );
 }
@@ -88,10 +86,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 20,
-    backgroundColor: '#fff',
+    backgroundColor: 'orange',
     alignItems: 'center',
     justifyContent: 'center',
-    // justifyContent: 'space-around',
+
   },
   maintext: {
     padding: 20,
@@ -107,7 +105,7 @@ const styles = StyleSheet.create({
     width: 300,
     overflow: 'hidden',
     borderRadius: 50,
-    // backgroundColor: 'orange'
+
   }
 })
 
